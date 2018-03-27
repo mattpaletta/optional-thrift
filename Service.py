@@ -1,9 +1,10 @@
-class RPC:
-	def __init__(self, use_rpc=False, server=False):
+class RPC(object):
+	def __init__(self, use_rpc, server):
 		pass
 
-class Service:
 
+class Service(object):
+	
 	def __init__(self, thrift_class):
 		self._thrift_class = thrift_class
 		self._transport = None
@@ -11,11 +12,14 @@ class Service:
 	def __call__(self, original_clazz):
 		print("Wrapped " + str(original_clazz.__name__))
 		
+		assert issubclass(RPC, original_clazz), \
+			"Wrapped function must be subclass of RPC."
+		
 		decorator_self = self
 		
 		def wrappee(*args, **kwargs):
 			print('in decorator before wrapee with flag ', decorator_self._thrift_class.__name__)
-
+			
 			if "use_rpc" in kwargs.keys() and "server" in kwargs.keys() \
 					and kwargs["use_rpc"] and kwargs["server"]:
 				
@@ -32,7 +36,9 @@ class Service:
 				
 				self.__inst = handler
 				
-				server = TServer.TSimpleServer(processor, transport, tfactory, pfactory)
+				server = TServer.TThreadedServer(processor, transport,
+				                                 tfactory, pfactory)
+				
 				print("Serving!")
 				server.serve()
 				print('done.')

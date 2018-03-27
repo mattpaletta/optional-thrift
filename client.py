@@ -1,9 +1,7 @@
 import sys
-
-from calculator_handler import CalculatorHandler
-
 sys.path.append('gen-py')
 
+from calculator_handler import CalculatorHandler
 from tutorial.ttypes import InvalidOperation, Operation, Work
 
 
@@ -40,4 +38,3 @@ def main():
     print('Check log: %s' % log.value)
 
 main()
-
