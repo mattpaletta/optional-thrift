@@ -1,0 +1,17 @@
+version: '3'
+services:
+  server:
+    image: optional-thrift:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: server.py
+    tty: true
+
+  client:
+    image: optional-thrift:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: client.py
+    tty: true

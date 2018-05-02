@@ -1,7 +1,7 @@
 import sys
 sys.path.append('gen-py')
 
-from calculator_handler import CalculatorHandler
+from examples.calculator_handler import CalculatorHandler
 from tutorial.ttypes import InvalidOperation, Operation, Work
 
 
