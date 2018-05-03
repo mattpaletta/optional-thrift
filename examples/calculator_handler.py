@@ -1,25 +1,24 @@
-from Service import Service, RPC
+from optionalthrift.Service import Service
 from shared.ttypes import SharedStruct
 from tutorial import Calculator
 from tutorial.ttypes import InvalidOperation, Operation
+import logging
 
-
-@Service(thrift_class=Calculator)
-class CalculatorHandler(RPC):
-	def __init__(self, use_rpc, server):
-		super().__init__(use_rpc, server)
+@Service(thrift_class=Calculator, port=1111)
+class CalculatorHandler():
+	def __init__(self, use_rpc=False, server=False):
 		self.log = {}
-		print("Starting server!")
+		logging.info("Starting server!")
 
 	def ping(self):
-		print('ping()')
+		logging.info('ping()')
 
 	def add(self, n1, n2):
-		print('add(%d,%d)' % (n1, n2))
+		logging.info('add(%d,%d)' % (n1, n2))
 		return n1 + n2
 
 	def calculate(self, logid, work):
-		print('calculate(%d, %r)' % (logid, work))
+		logging.info('calculate(%d, %r)' % (logid, work))
 
 		if work.op == Operation.ADD:
 			val = work.num1 + work.num2
@@ -48,8 +47,8 @@ class CalculatorHandler(RPC):
 		return val
 
 	def getStruct(self, key):
-		print('getStruct(%d)' % (key))
+		logging.info('getStruct(%d)' % (key))
 		return self.log[key]
 
 	def zip(self):
-		print('zip()')
+		logging.info('zip()')

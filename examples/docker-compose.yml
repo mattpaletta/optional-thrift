@@ -3,15 +3,25 @@ services:
   server:
     image: optional-thrift:latest
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: examples/Dockerfile
     command: server.py
     tty: true
 
   client:
     image: optional-thrift:latest
     build:
-      context: .
-      dockerfile: Dockerfile
-    command: client.py
+      context: ../
+      dockerfile: examples/Dockerfile
+    command: client.py --mode cluster
+    tty: true
+    links:
+      - server:Calculator
+
+  client_local:
+    image: optional-thrift:latest
+    build:
+      context: ../
+      dockerfile: examples/Dockerfile
+    command: client.py --mode local
     tty: true

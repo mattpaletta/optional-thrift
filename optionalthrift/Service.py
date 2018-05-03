@@ -1,6 +1,6 @@
 import logging
 from time import sleep
-from singleton import Singleton
+from optionalthrift.singleton import Singleton
 try:
 	from os import cpu_count
 except:

@@ -9,7 +9,7 @@ except ImportError:
 
 
 setup(
-		name="optional-thrift",
+		name="optionalthrift",
 		version="0.0.1",
 		url='https://github.com/mattpaletta/optional-thrift',
 		packages=find_packages(),

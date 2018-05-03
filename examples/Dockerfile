@@ -1,10 +1,12 @@
 FROM thrift:latest as builder
-ADD ./*.thrift /thrift/
+ADD ./examples/*.thrift /thrift/
 WORKDIR /thrift
 RUN find . -name "*.thrift" -exec thrift -r -gen py {} \;
 
-ADD requirements.txt /src/requirements.txt
-RUN pip install --compile --no-cache-dir -r requirements.txt
+FROM python:latest
 ADD . /src/
-COPY --from=builder /thrift/gen-py /src/gen-py
+WORKDIR /src
+RUN pip install .
+WORKDIR /src/examples/
+COPY --from=builder /thrift/gen-py /src/examples/gen-py
 ENTRYPOINT ["python"]
