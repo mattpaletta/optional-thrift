@@ -1,22 +1,23 @@
 import sys
+import argparse
+import logging
 sys.path.append('gen-py')
 
-from calculator_handler import CalculatorHandler
 from tutorial.ttypes import InvalidOperation, Operation, Work
+
+from calculator_handler import CalculatorHandler
 
 
 def main():
-    import logging
     root = logging.getLogger()
     root.setLevel(logging.DEBUG)
 
     ch = logging.StreamHandler(sys.stdout)
-    ch.setLevel(logging.DEBUG)
+    ch.setLevel(logging.NOTSET)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s - [%(filename)s:%(lineno)s]')
     ch.setFormatter(formatter)
     root.addHandler(ch)
-    
-    import argparse
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--mode")
     args = parser.parse_args()
@@ -24,13 +25,17 @@ def main():
     assert args.mode in ["cluster", "local"], "mode can only be `local` or `cluster`"
 
     start_with_rpc = (args.mode == "cluster")
+    if start_with_rpc:
+        logging.info("Starting with RPC!")
+    else:
+        logging.info("Starting local mode, expecting Singleton!")
     client = CalculatorHandler(use_rpc=start_with_rpc, server=False)
     
     client.ping()
     logging.info('ping()')
 
     sum_ = client.add(1, 1)
-    logging.info('1+1=%d' % sum_)
+    logging.info('1+1=' + str(sum_))
 
     work = Work()
 
@@ -41,7 +46,7 @@ def main():
     try:
         quotient = client.calculate(1, work)
         logging.info('Whoa? You know how to divide by zero?')
-        logging.info('FYI the answer is %d' % quotient)
+        logging.info('FYI the answer is: ' + str(quotient))
     except InvalidOperation as e:
         logging.info('InvalidOperation: %r' % e)
 
@@ -50,9 +55,13 @@ def main():
     work.num2 = 10
 
     diff = client.calculate(1, work)
-    logging.info('15-10=%d' % diff)
+    logging.info('15-10=' + str(diff))
 
-    log = client.getStruct(1)
-    logging.info('Check log: %s' % log.value)
+    log = client.get_struct(1)
+    logging.info('Check log: ' + str(log.value))
 
-main()
+    client.done()
+
+
+if __name__ == "__main__":
+    main()

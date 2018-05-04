@@ -1,11 +1,10 @@
+import logging
 import sys
-sys.path.append('gen-py')
 
 from calculator_handler import CalculatorHandler
 
 
 if __name__ == '__main__':
-    import logging
     root = logging.getLogger()
     root.setLevel(logging.DEBUG)
 
@@ -13,6 +12,6 @@ if __name__ == '__main__':
     ch.setLevel(logging.DEBUG)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s - [%(filename)s:%(lineno)s]')
     ch.setFormatter(formatter)
-    root.addHandler(ch)	
-    handler = CalculatorHandler(use_rpc=True, server=True)
+    root.addHandler(ch)
 
+    CalculatorHandler(use_rpc=True, server=True)

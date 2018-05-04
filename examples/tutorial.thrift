@@ -63,16 +63,7 @@ include "shared.thrift"
  * target languages.
  */
 
-//namespace cl tutorial
-namespace cpp tutorial
-namespace d tutorial
-namespace dart tutorial
-namespace java tutorial
 namespace py tutorial
-namespace php tutorial
-namespace perl tutorial
-namespace haxe tutorial
-namespace netcore tutorial
 
 /**
  * Thrift lets you do typedefs to get pretty names for your types. Standard
@@ -136,18 +127,9 @@ service Calculator extends shared.SharedService {
    */
 
    void ping(),
-
    i32 add(1:i32 num1, 2:i32 num2),
-
    i32 calculate(1:i32 logid, 2:Work w) throws (1:InvalidOperation ouch),
-
-   /**
-    * This method has a oneway modifier. That means the client only makes
-    * a request and does not listen for any response at all. Oneway methods
-    * must be void.
-    */
-   oneway void zip()
-
+   oneway void done(),
 }
 
 /**
