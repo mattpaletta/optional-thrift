@@ -1,1 +1,2 @@
 thrift
+git+git://github.com/mattpaletta/pynotstdlib.git

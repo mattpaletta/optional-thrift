@@ -2,7 +2,7 @@ import logging
 from multiprocessing import cpu_count
 from time import sleep
 
-from optionalthrift.singleton import Singleton
+from pynotstdlib.singleton import Singleton
 
 
 class ServerTypes(object):

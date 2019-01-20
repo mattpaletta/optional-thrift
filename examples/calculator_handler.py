@@ -7,7 +7,7 @@ from shared.ttypes import SharedStruct
 from tutorial import Calculator
 from tutorial.ttypes import InvalidOperation, Operation
 
-from optionalthrift.Service import Service
+from optionalthrift.service import Service
 
 
 @Service(thrift_class=Calculator, port=1111)
